@@ -47,9 +47,9 @@ v2 >> loop('oscuro1',P[4:5], dur=PSum(6,4), amp=var([2],[8]), formant=var([0,[2,
 def intro1():
     v1 >> loop('oscuro1',P[4:8], amp=var([1],[1]), formant=var([3],4),room=0.9,mix=0.9)
 def intro2():
-    m2 >> gong(var([p2.pitch],4), dur=1/4, pan=linvar([-1,1],4), amp=linvar([0,2],8)).sometimes('stutter', 4)    
+    m2 >> gong(var([p2.pitch],4), dur=1/4, pan=linvar([-1,1],4), amp=linvar([0,2],8)).sometimes('stutter', 4)
 def intro3():
-    d2 >> play('w' ,dur=PSum([1,6],4), rate=1/4) 
+    d2 >> play('w' ,dur=PSum([1,6],4), rate=1/4)
 def intro4():
     d3 >> play('K', dur=2, sample=3)
 def verso1():
@@ -71,6 +71,19 @@ def cierre1():
     pass
 def cierre2():
     Clock.clear()
+
+# Usar para transiciones cortas
+def softdrums(hpff=250):
+    sust=0.02
+    hh >> play('------(-=)--(-=)--(-=)---',dur=1/4,amp=[1,0.3],sus=sust,hpf=hpff,sample=3)
+    bd >> play('x  x   xx (x )( x)   x',dur=1/4,amp=0.3,sus=sust,hpf=hpff)
+    sn >> play('    o    o  o   ',dur=1/4,amp=0.15,sus=sust,hpf=hpff)
+softdrums()
+
+# Frase para usar mas adelante en la cancion
+def bells(hpff=250):
+    p1.reset() >> bell([10,9,7,4,3,2,0],dur=P[3,3,3,3,2,2,16]/4,scale=Scale.lydian,root=-3,oct=4,hpf=hpff)
+
 
 ### CANCION ###
 
@@ -116,5 +129,5 @@ def reproducir(cancion,efectos,reset,start):
 def arrancarCancion():
     start = Clock.mod(8) - 0.1
     Clock.schedule(lambda : reproducir(cancion,efectos,reset,start), start)
-    
+
 arrancarCancion()
